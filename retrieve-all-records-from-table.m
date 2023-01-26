@@ -7,10 +7,10 @@ let Pagination = List.Skip(List.Generate( () => [Last_Key = "init", Counter=0],
    WebCall = try if [Counter]<1
    then
    Json.Document(Web.Contents("https://api.airtable.com",
-     [RelativePath="v0/"&BASE_ID&"/"&TABLE_ID&"?api_key="&API_KEY&""]))
+     [RelativePath="v0/"&BASE_ID&"/"&TABLE_ID&"", Headers=[#"Authorization"="Bearer "&PERSONAL_ACCESS_TOKEN,#"Content-Type"="application/json"]]))
    else
    Json.Document(Web.Contents("https://api.airtable.com",
-     [RelativePath="v0/"&BASE_ID&"/"&TABLE_ID&"?api_key="&API_KEY&"&offset="&Last_Key&""])),
+     [RelativePath="v0/"&BASE_ID&"/"&TABLE_ID&"", Headers=[#"Authorization"="Bearer "&PERSONAL_ACCESS_TOKEN,#"Content-Type"="application/json"]])),
    Counter = [Counter]+1
  ],
  each [WebCall]
