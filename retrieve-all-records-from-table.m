@@ -6,9 +6,9 @@ let Pagination = List.Skip( List.Generate( () => [Page_Key = "init", Counter=0],
       [WebCall][Value][offset] otherwise null, // determine the LastKey for the next execution
     WebCall = try if [Counter]<1
     then 
-      Json.Document(Web.Contents("https://api.airtable.com/v0/"&BASE_ID&"/"&TABLE_ID,[Headers=[Authorization="Bearer "&PERSONAL_ACCESS_TOKEN]]))
+      Json.Document(Web.Contents("https://api.airtable.com",[RelativePath="v0/"&BASE_ID&"/"&TABLE_ID,Headers=[Authorization="Bearer "&PERSONAL_ACCESS_TOKEN]]))
     else 
-      Json.Document(Web.Contents("https://api.airtable.com/v0/"&BASE_ID&"/"&TABLE_ID&"?offset="&[WebCall][Value][offset] , [Headers=[Authorization="Bearer "&PERSONAL_ACCESS_TOKEN]])),// retrieve results per call
+      Json.Document(Web.Contents("https://api.airtable.com",[RelativePath="v0/"&BASE_ID&"/"&TABLE_ID&"?offset="&[WebCall][Value][offset], Headers=[Authorization="Bearer "&PERSONAL_ACCESS_TOKEN]])),// retrieve results per call
     Counter = [Counter]+1// internal counter
   ],
   each [WebCall]
